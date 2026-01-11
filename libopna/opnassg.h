@@ -1,6 +1,10 @@
 #ifndef LIBOPNA_OPNASSG_H_INCLUDED
 #define LIBOPNA_OPNASSG_H_INCLUDED
 
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#define __attribute__(x) /* blank - should simply ignore thanks to C preprocessor */
+#endif
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>

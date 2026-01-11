@@ -185,7 +185,7 @@ err:
 
 // returns true if error
 static bool loadpmdppz(struct fmdriver_work *work, struct fmplayer_file *fmfile,int bnum, const char *ppzfile) {
-  if (!strlen(ppzfile)) false;
+  if (!strlen(ppzfile)) return false;
   if (!loadppzpvi(work, fmfile, bnum, ppzfile) && !loadppzpzi(work, fmfile, bnum, ppzfile)) {
     return true;
   }

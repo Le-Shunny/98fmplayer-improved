@@ -5,7 +5,16 @@
 #include <windowsx.h>
 #include <commctrl.h>
 #include <stdlib.h>
+#if defined(_MSC_VER)
+#include <intrin.h> // __cpu_id
+#else
+#include <cpuid.h> // __get_cpuid
+#endif
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#include "stdatomic.h"
+#else
 #include <stdatomic.h>
+#endif
 
 #include "fmdriver/fmdriver_fmp.h"
 #include "fmdriver/fmdriver_pmd.h"
@@ -682,7 +691,7 @@ static void on_key(HWND hwnd, UINT vk, BOOL down, int repeat, UINT scan) {
   }
 }
 
-static void on_activate(HWND hwnd, bool activate, HWND targetwnd, WINBOOL state) {
+static void on_activate(HWND hwnd, bool activate, HWND targetwnd, bool state) {
   (void)targetwnd;
   (void)state;
   if (activate) g_currentdlg = hwnd;
@@ -771,7 +780,13 @@ int CALLBACK wWinMain(HINSTANCE hinst, HINSTANCE hpinst,
   (void)hpinst;
   (void)cmdline_;
 
+#if defined(_MSC_VER)
+#if defined(SSE2_SUPPORTED)
+  opna_ssg_sinc_calc_func = opna_ssg_sinc_calc_sse2;
+#endif
+#else
   if (__builtin_cpu_supports("sse2")) opna_ssg_sinc_calc_func = opna_ssg_sinc_calc_sse2;
+#endif
 
   fft_init_table();
   about_set_fontrom_loaded(fmplayer_font_rom_load(&g.font));

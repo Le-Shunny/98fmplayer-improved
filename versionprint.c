@@ -1,4 +1,3 @@
-#!/usr/bin/tcc -run
 #include "version.h"
 #include <stdio.h>
 

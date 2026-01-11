@@ -1,7 +1,9 @@
 // supports OpenGL 2.0 / OpenGL ES 2.0
 // when using OpenGL ES, define MYON_OPENGL_ES
 
+#ifdef MYON_OPENGL_ES
 #include "myon_opengl.h"
+#endif
 #include "fmdsp_gl.h"
 #include <stdio.h>
 #include <stdlib.h>

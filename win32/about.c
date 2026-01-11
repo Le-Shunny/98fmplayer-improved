@@ -3,6 +3,11 @@
 #include <stdbool.h>
 #include <wchar.h>
 #include <stdlib.h>
+#if defined(_MSC_VER)
+#include <intrin.h> // __cpu_id
+#else
+#include <cpuid.h> // __get_cpuid
+#endif
 #include "version.h"
 
 enum {
@@ -40,13 +45,21 @@ static void update_status(void) {
   static wchar_t buf[1024];
   swprintf(buf, sizeof(buf)/sizeof(buf[0]),
            L"Audio API: %ls\r\n"
-           "ym2608_adpcm_rom.bin: %lsavailable\r\n"
-           "font.rom: %ls\r\n"
-           "SSE2 (for SIMD SSG resampling): %lsavailable",
-           g.soundapiname ? g.soundapiname : L"",
-           g.adpcm_rom ? L"" : L"un",
-           g.font_rom ? L"available" : L"unavailable, using MS Gothic",
+           L"ym2608_adpcm_rom.bin: %lsavailable\r\n"
+           L"font.rom: %ls\r\n"
+           L"SSE2 (for SIMD SSG resampling): %lsavailable\r\n",
+           ( NULL != g.soundapiname ) ? g.soundapiname : L"",
+           ( true == g.adpcm_rom ) ? L"" : L"un",
+           ( true == g.font_rom ) ? L"available" : L"unavailable, using MS Gothic",
+#if defined(_MSC_VER)
+#if defined(SSE2_SUPPORTED)
+           L"");
+#else
+           L"un");
+#endif
+#else
            __builtin_cpu_supports("sse2") ? L"" : L"un");
+#endif
   SetWindowText(g.static_info, buf);
 }
 
@@ -122,7 +135,7 @@ static bool on_create(HWND hwnd, const CREATESTRUCT *cs) {
   return true;
 }
 
-static void on_activate(HWND hwnd, bool activate, HWND targetwnd, WINBOOL state) {
+static void on_activate(HWND hwnd, bool activate, HWND targetwnd, bool state) {
   (void)targetwnd;
   (void)state;
   if (activate) g_currentdlg = hwnd;
@@ -180,7 +193,11 @@ void about_open(HINSTANCE hinst, HWND parent, void (*closecb)(void *ptr), void *
 
 void about_setsoundapiname(const wchar_t *apiname) {
   free(g.soundapiname);
+#if defined(FMPLAYER_FILE_WIN_UTF16)
   g.soundapiname = wcsdup(apiname);
+#elif defined(FMPLAYER_FILE_WIN_UTF8)
+  g.soundapiname = u8tou16(apiname);
+#endif
   if (g.about) update_status();
 }
 

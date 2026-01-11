@@ -4,7 +4,11 @@
 #include <SDL.h>
 #endif
 #include <stdbool.h>
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#include "stdatomic.h"
+#else
 #include <stdatomic.h>
+#endif
 #include "pacc/pacc.h"
 #include "fmdsp/fmdsp-pacc.h"
 #include "fmdsp/font.h"

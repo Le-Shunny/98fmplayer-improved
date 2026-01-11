@@ -1,0 +1,3 @@
+- [x] Set ChooseColor and ChooseFont hwndOwner to g.parent
+- [x] Add SetForegroundWindow(g.parent) before opening dialogs in on_command
+- [x] Keep set_channel_name using g.parent as parent

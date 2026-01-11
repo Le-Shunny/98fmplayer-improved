@@ -5,10 +5,12 @@ vpath %.c ../../libopna
 vpath %.c ../../common
 vpath %.c ../../fmdriver
 vpath %.c ../../fft
-#ARCH=x86_64
-ARCH=i686
-SDLCONFIG:=$(ARCH)-w64-mingw32-sdl2-config
-CC:=$(ARCH)-w64-mingw32-gcc
+ARCH=x86_64
+#ARCH=i686
+SDLCONFIG:=sdl2-config
+PKGCONFIG:=pkg-config
+#CC:=$(ARCH)-w64-mingw32-gcc
+CC:=gcc
 OBJS:=main.o
 OBJS+=pacc-gl.o
 OBJS+=fmdsp-pacc.o font_fmdsp_small.o fmdsp_platform_win.o font_rom.o
@@ -24,10 +26,11 @@ CFLAGS+=-DFMPLAYER_FILE_WIN_UTF8
 CFLAGS+=-DPACC_GL_3
 #CFLAGS+=-DPACC_GL_ES
 #CFLAGS+=-DPACC_GL_ES -DPACC_GL_3
-CFLAGS+=-I.. -I../..
-CFLAGS+=$(shell $(SDLCONFIG) --cflags)
+CFLAGS+=-I.. -I../.. `$(PKGCONFIG) --cflags glew` `$(PKGCONFIG) --cflags glfw3`
+CFLAGS+=`$(SDLCONFIG) --cflags | sed -e "s/-Dmain=SDL_main//g"`
 LIBS:=-lshlwapi
-LIBS+=-static $(shell $(SDLCONFIG) --static-libs) -lopengl32
+LIBS+=-static `$(SDLCONFIG) --static-libs` -lopengl32 \
+	`$(PKGCONFIG) --libs glew` `$(PKGCONFIG) --libs glfw3`
 
 $(TARGET):	$(OBJS)
 	$(CC) -o $@ $^ $(LIBS)

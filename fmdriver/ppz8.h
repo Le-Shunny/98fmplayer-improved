@@ -3,8 +3,14 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#include "stdatomic.h"
+#else
 #include <stdatomic.h>
+#endif
+#ifdef LIBOPNA_ENABLE_LEVELDATA
 #include "leveldata/leveldata.h"
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,7 +49,9 @@ struct ppz8_channel {
   uint8_t voice;
   bool playing;
   bool looped;
+#ifdef LIBOPNA_ENABLE_LEVELDATA
   struct leveldata leveldata;
+#endif
 };
 
 struct ppz8 {

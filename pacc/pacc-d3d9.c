@@ -1,7 +1,11 @@
 #include "pacc-win.h"
 #include <d3d9.h>
 #include <stdlib.h>
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#include "stdatomic.h"
+#else
 #include <stdatomic.h>
+#endif
 #include <stdint.h>
 #include <stdio.h>
 
@@ -504,7 +508,7 @@ struct pacc_ctx *pacc_init_d3d9(
   if (!pc->rendermtx) goto err;
   pc->d3d9m = LoadLibraryW(L"d3d9");
   if (!pc->d3d9m) goto err;
-  IDirect3D9 * WINAPI (*d3d9create)(UINT) = (IDirect3D9 * WINAPI (*)(UINT))GetProcAddress(pc->d3d9m, "Direct3DCreate9");
+  IDirect3D9 * (WINAPI *d3d9create)(UINT SDKVersion) = (IDirect3D9 * (WINAPI *)(UINT))GetProcAddress(pc->d3d9m, "Direct3DCreate9");
   if (!d3d9create) goto err;
   pc->d3d9 = d3d9create(D3D_SDK_VERSION);
   if (!pc->d3d9) goto err;

@@ -1,6 +1,10 @@
 #ifndef MYON_FMDSP_H_INCLUDED
 #define MYON_FMDSP_H_INCLUDED
 
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#define __attribute__(x) /* blank - should simply ignore thanks to C preprocessor */
+#endif
+
 #include <stdint.h>
 #include <stdbool.h>
 #include "font.h"

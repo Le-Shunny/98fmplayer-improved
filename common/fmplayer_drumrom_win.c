@@ -20,14 +20,12 @@ static void loadrom(void) {
       path = exepath;
     }
   }
-  HANDLE file = CreateFileW(path, GENERIC_READ,
-                            0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+  HANDLE file = CreateFileW(path, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
   if (file == INVALID_HANDLE_VALUE) goto err;
   DWORD filesize = GetFileSize(file, 0);
   if (filesize != OPNA_ROM_SIZE) goto err;
   DWORD readbytes;
-  if (!ReadFile(file, g.drum_rom, OPNA_ROM_SIZE, &readbytes, 0)
-      || readbytes != OPNA_ROM_SIZE) goto err;
+  if (!ReadFile(file, g.drum_rom, OPNA_ROM_SIZE, &readbytes, 0) || readbytes != OPNA_ROM_SIZE) goto err;
   CloseHandle(file);
   g.loaded = true;
   return;

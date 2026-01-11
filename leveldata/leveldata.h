@@ -1,7 +1,11 @@
 #ifndef MYON_LEVELDATA_H_INCLUDED
 #define MYON_LEVELDATA_H_INCLUDED
 
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#include "stdatomic.h"
+#else
 #include <stdatomic.h>
+#endif
 
 struct leveldata {
   atomic_flag flag;

@@ -340,7 +340,7 @@ static bool on_create(HWND hwnd, const CREATESTRUCT *cs) {
   return true;
 }
 
-static void on_activate(HWND hwnd, bool activate, HWND targetwnd, WINBOOL state) {
+static void on_activate(HWND hwnd, bool activate, HWND targetwnd, bool state) {
   (void)targetwnd;
   (void)state;
   if (activate) g_currentdlg = hwnd;
@@ -401,9 +401,8 @@ void configdialog_open(HINSTANCE hinst, HWND parent, void (*closecb)(void *), vo
                                  WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN,
                                  CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
                                  parent, 0, g.hinst, 0);
-  } else {
-    SetForegroundWindow(g.configwnd);
   }
+  SetForegroundWindow(g.configwnd);
 }
 
 void configdialog_close(void) {

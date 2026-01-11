@@ -1,6 +1,9 @@
 #include "toneview.h"
 #include <stdbool.h>
 #include <windowsx.h>
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#include <wingdi.h>
+#endif
 
 enum {
   TIMER_UPDATE = 1
@@ -152,7 +155,7 @@ static bool on_create(HWND hwnd, const CREATESTRUCT *cs) {
       16, 0, 0, 0,
       FW_NORMAL, FALSE, FALSE, FALSE,
       ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
-      CLEARTYPE_QUALITY, FIXED_PITCH, 0);
+      /*CLEARTYPE_QUALITY*/ANTIALIASED_QUALITY, FIXED_PITCH, 0);
   }
 
   if (!g.font) {
@@ -229,7 +232,7 @@ static void on_timer(HWND hwnd, UINT id) {
   }
 }
 
-static void on_activate(HWND hwnd, bool activate, HWND targetwnd, WINBOOL state) {
+static void on_activate(HWND hwnd, bool activate, HWND targetwnd, bool state) {
   (void)targetwnd;
   (void)state;
   if (activate) g_currentdlg = hwnd;
@@ -275,9 +278,8 @@ void toneview_open(HINSTANCE hinst, HWND parent, void (*closecb)(void *ptr), voi
                                   WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN,
                                   CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
                                   parent, 0, g.hinst, 0);
-  } else {
-    SetForegroundWindow(g.toneviewer);
   }
+  SetForegroundWindow(g.toneviewer);
 }
 
 void toneview_close(void) {

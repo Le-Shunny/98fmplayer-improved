@@ -3,3 +3,6 @@
 .dirstamp
 *~
 .DS_Store
+.gitignore
+.zencoder
+.zenflow

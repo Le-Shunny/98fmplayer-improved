@@ -1144,21 +1144,24 @@ static void pmd_ssg_effect(
   struct driver_pmd *pmd,
   uint8_t effnum
 ) {
-  if (effnum > PMD_SSGEFF_CNT) return;
-  pmd->ssgeff_internal = true;
-  if (pmd->ssgeff_disabled) return;
+  bool doWorkFlow = true;
+  if (effnum > (PMD_SSGEFF_CNT - 1)) doWorkFlow = false;
+  if (doWorkFlow) pmd->ssgeff_internal = true;
+  if (pmd->ssgeff_disabled) doWorkFlow = false;
   // TODO: PPSDRV
   // 0da4
-  pmd->ssgeff_num = effnum;
+  if (doWorkFlow) { pmd->ssgeff_num = effnum; }
   // 3ef7
-  if (pmd->ssgeff_priority > pmd_ssgeff_table[effnum].priority) return;
+  if (doWorkFlow) { if (pmd->ssgeff_priority > pmd_ssgeff_table[effnum].priority) { doWorkFlow = false; } }
   // TODO: PPSDRV
   // 0dc5
+  if (doWorkFlow) {
   pmd->ssgeff_ptr = pmd_ssgeff_table[effnum].data;
   pmd->parts[PMD_PART_SSG_3].mask.effect = true;
   pmd_ssgeff_advance(work, pmd);
   pmd->ssgeff_priority = pmd_ssgeff_table[effnum].priority;
   pmd->ssgeff_on = true;
+  }
 }
 
 // 1a58

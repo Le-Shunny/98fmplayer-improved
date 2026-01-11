@@ -1,8 +1,8 @@
+#include "fmdriver/fmdriver.h"
+#include "libopna/opna.h"
 #include "fmdsp-pacc.h"
 #include "pacc/pacc.h"
 #include "font.h"
-#include "fmdriver/fmdriver.h"
-#include "libopna/opna.h"
 #include "version.h"
 #include "fft/fft.h"
 

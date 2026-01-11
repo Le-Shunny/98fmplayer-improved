@@ -15,14 +15,15 @@ OBJS+=$(addsuffix .sse.o,$(SSEOBJBASE))
 ARCH=i686
 PREFIX=$(ARCH)-w64-mingw32-
 CC=$(PREFIX)gcc
-WINDRES=$(PREFIX)windres
-STRIP=$(PREFIX)strip
+WINDRES=windres
+STRIP=strip
 CFLAGS=-std=c99 -O2 -Wall -Wextra -Werror -pedantic -I../.. \
-       $(addprefix -D,$(DEFINES)) \
-       -march=i586
+	$(addprefix -D,$(DEFINES)) \
+	-march=i586
 SSECFLAGS=-mssse3 -O3
 LIBS=-s -mwindows -municode \
-     $(addprefix -l,$(LIBBASE))
+	$(addprefix -l,$(LIBBASE))
+VERSION=`dd bs=6 status=none if=../../versionprint.txt`
 
 $(TARGET):	$(OBJS)
 	@echo "  CCLD     $@"
@@ -41,8 +42,9 @@ $(TARGET):	$(OBJS)
 	@echo "  WINDRES  $@"
 	@$(WINDRES) -o $@ -i $<
 
-$(MANIFEST):	$(MANIFEST).in ../../version.h
-	sed -e "s/@VER@/$(shell ../../versionprint.c)/g" $< > $@
+$(MANIFEST):	$(MANIFEST).in ../../versionprint.txt
+	@echo "  VERSION  $(VERSION)"
+	sed -e "s/@VER@/$(VERSION)/g" $< > $@
 
 $(ICON):	$(ICONFILES)
 	icotool -o $@ -c $^

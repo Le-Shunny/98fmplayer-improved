@@ -17,22 +17,18 @@ PC-98 FM driver emulation (very early version)
 * SSGEG, Hardware LFO not supported
 * PPZ8: support nearest neighbor, linear and sinc interpolation
 * ADPCM: inaccurate (actual YM2608 seems to decode ADPCM at lower samplerate/resolution than any YM2608 emulator around, but I still couldn't get my YM2608 work with the DRAM)
+* Customizable oscilloscope view (Right click an oscilloscope channel to see the options)
+
+## Known issues
+* Opening a setting in oscilloscope view will not show the window unless you press Alt key.
+
+## Future plans
+* Oscilloscope view video export
 
 ## Installation/Usage (not very usable yet)
-### gtk
-Uses gtk3, pulseaudio/jack/alsa
-```
-$ cd gtk
-$ autoreconf -i
-$ ./configure
-$ make
-$ ./98fmplayer
-```
-Reads drum sample from `$HOME/.local/share/98fmplayer/ym2608_adpcm_rom.bin` (same format as MAME).
-
 ### win32
 Releases:
-https://github.com/takamichih/fmplayer/releases/
+https://github.com/Le-Shunny/98fmplayer/releases/
 
 Uses MinGW-w64 to compile.
 ```
