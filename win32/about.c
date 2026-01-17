@@ -95,7 +95,7 @@ static bool on_create(HWND hwnd, const CREATESTRUCT *cs) {
                                  100, 10, 32, 32,
                                  hwnd, 0, g.hinst, 0);
 #ifdef _WIN64
-#define ABOUT_ARCH "(amd64)"
+#define ABOUT_ARCH "(x86_64)"
 #else
 #define ABOUT_ARCH "(i586)"
 #endif
@@ -120,7 +120,7 @@ static bool on_create(HWND hwnd, const CREATESTRUCT *cs) {
                                  hwnd, 0, g.hinst, 0);
   SetWindowFont(g.static_help, g.font, TRUE);
   g.static_main = CreateWindowEx(0, L"static",
-                                 L"98FMPlayer/Win32 " ABOUT_ARCH " v" FMPLAYER_VERSION_STR,
+                                 L"98FMPlayer/Win32 Improved " " v" FMPLAYER_VERSION_STR,
                                  WS_CHILD | WS_VISIBLE,
                                  150, 10, 400, 40,
                                  hwnd, 0, g.hinst, 0);

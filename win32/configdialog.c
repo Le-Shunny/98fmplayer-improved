@@ -401,8 +401,9 @@ void configdialog_open(HINSTANCE hinst, HWND parent, void (*closecb)(void *), vo
                                  WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN,
                                  CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
                                  parent, 0, g.hinst, 0);
+  } else {
+    SetForegroundWindow(g.configwnd);
   }
-  SetForegroundWindow(g.configwnd);
 }
 
 void configdialog_close(void) {

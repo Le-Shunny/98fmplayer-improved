@@ -277,9 +277,10 @@ void toneview_open(HINSTANCE hinst, HWND parent, void (*closecb)(void *ptr), voi
                                   L"FMPlayer Tone Viewer",
                                   WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN,
                                   CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-                                  parent, 0, g.hinst, 0);
+                                  NULL, 0, g.hinst, 0);
+  } else {
+    SetForegroundWindow(g.toneviewer);
   }
-  SetForegroundWindow(g.toneviewer);
 }
 
 void toneview_close(void) {

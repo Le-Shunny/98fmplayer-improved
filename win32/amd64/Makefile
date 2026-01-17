@@ -23,7 +23,7 @@ VERSION=`dd bs=6 status=none if=../../versionprint.txt`
 MANIFEST=../lnf.manifest
 RESOBJ=lnf.o
 
-OBJS=$(addsuffix .o,$(OBJBASE) $(RESBASE)) $(RESOBJ)
+OBJS=$(addsuffix .o,$(OBJBASE)) $(RESOBJ)
 OBJS+=$(addsuffix .sse.o,$(SSEOBJBASE))
 
 TARGET=98fmplayer.exe
